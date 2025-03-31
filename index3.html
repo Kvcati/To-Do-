@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: url("C:/xampp/htdocs/23BCA410/case study/intership/task 3/image/yellow.jpg") no-repeat center center fixed;
+            background-size: cover;
+            color: #6b705c;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 250, 240, 0.9);
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .container:hover {
+            transform: scale(1.02);
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #d3c6a8;
+            border-radius: 5px;
+            background: #fdf6e3;
+            color: #6b705c;
+            transition: all 0.2s ease-in-out;
+        }
+        input:focus {
+            transform: scale(1.05);
+            border-color: #ffcccb;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .add-btn { background: #ffcccb; color: #6b705c; }
+        .complete-btn { background: #b5e7a0; color: #6b705c; }
+        .delete-btn { background: #c9daf8; color: #6b705c; }
+        button:hover {
+            transform: scale(1.1);
+        }
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border-bottom: 1px solid #d3c6a8;
+            padding: 8px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        tr:hover td {
+            background: #fce5cd;
+        }
+        .complete { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🌈 Fun To-Do List 🎈</h2>
+        <div class="input-container">
+            <input type="text" id="taskTitle" placeholder="Title">
+            <input type="text" id="taskDescription" placeholder="Description">
+            <button class="add-btn" onclick="addTask()">Add Task 🎉</button>
+        </div>
+        
+        <h3>📌 Pending Tasks</h3>
+        <table id="pendingTasks">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+
+        <h3>✅ Completed Tasks</h3>
+        <table id="completedTasks">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+    </div>
+    
+    <script>
+        function addTask() {
+            let title = document.getElementById("taskTitle").value;
+            let description = document.getElementById("taskDescription").value;
+            if (!title.trim()) return;
+            
+            let table = document.getElementById("pendingTasks");
+            let row = table.insertRow(-1);
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+            
+            cell1.innerText = title;
+            cell2.innerText = description;
+            cell3.innerHTML = `<button class="complete-btn" onclick="markComplete(this)">✅</button> 
+                               <button class="delete-btn" onclick="deleteTask(this)">❌</button>`;
+            
+            document.getElementById("taskTitle").value = "";
+            document.getElementById("taskDescription").value = "";
+        }
+
+        function markComplete(btn) {
+            let row = btn.parentElement.parentElement;
+            let table = document.getElementById("completedTasks");
+            row.classList.add("complete");
+            row.cells[2].innerHTML = `<button class="delete-btn" onclick="deleteTask(this)">❌</button>`;
+            table.appendChild(row);
+        }
+
+        function deleteTask(btn) {
+            let row = btn.parentElement.parentElement;
+            row.parentElement.removeChild(row);
+        }
+    </script>
+</body>
+</html>
